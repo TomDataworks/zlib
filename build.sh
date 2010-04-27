@@ -7,6 +7,8 @@ if [ -z "$AUTOBUILD" ] ; then
     AUTOBUILD="$(which autobuild)"
 fi
 
+ZLIB_VERSION="1.2.3"
+
 # *NOTE: temporary workaround until autobuild is installed on the build farm
 autobuild_installed ()
 {
@@ -52,11 +54,11 @@ set -x
 
 "$AUTOBUILD" package
 
-FOO_INSTALLABLE_PACKAGE_FILENAME="$(ls -1 foo-$FOO_VERSION-$AUTOBUILD_PLATFORM-$(date +%Y%m%d)*.tar.bz2)"
-upload_item installer "$FOO_INSTALLABLE_PACKAGE_FILENAME" application/octet-stream
+ZLIB_INSTALLABLE_PACKAGE_FILENAME="$(ls -1 zlib-$ZLIB_VERSION-$AUTOBUILD_PLATFORM-$(date +%Y%m%d)*.tar.bz2)"
+upload_item installer "$ZLIB_INSTALLABLE_PACKAGE_FILENAME" application/octet-stream
 
-FOO_INSTALLABLE_PACKAGE_MD5="$(calc_md5 "$FOO_INSTALLABLE_PACKAGE_FILENAME")"
-echo "{'md5':'$FOO_INSTALLABLE_PACKAGE_MD5', 'url':'http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/$FOO_INSTALLABLE_PACKAGE_FILENAME'}" > "output.json"
+ZLIB_INSTALLABLE_PACKAGE_MD5="$(calc_md5 "$ZLIB_INSTALLABLE_PACKAGE_FILENAME")"
+echo "{'md5':'$ZLIB_INSTALLABLE_PACKAGE_MD5', 'url':'http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/$ZLIB_INSTALLABLE_PACKAGE_FILENAME'}" > "output.json"
 
 upload_item docs "output.json" text/plain
 
