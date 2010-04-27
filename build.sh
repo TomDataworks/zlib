@@ -3,6 +3,12 @@
 # turn on verbose debugging output for parabuild logs.
 set -x
 
+ZLIB_VERSION="1.2.3"
+ZLIB_SOURCE_DIR="zlib-$ZLIB_VERSION"
+ZLIB_ARCHIVE="$ZLIB_SOURCE_DIR.tar.gz"
+ZLIB_URL="http://downloads.sourceforge.net/project/libpng/zlib/$ZLIB_VERSION/$ZLIB_ARCHIVE"
+ZLIB_MD5="debc62758716a169df9f62e6ab2bc634" # for zlib-1.2.3.tar.gz
+
 if [ -z "$autobuild" ] ; then 
     autobuild="$(which autobuild)"
 fi
@@ -52,11 +58,12 @@ set -x
 
 "$autobuild" package
 
-FOO_INSTALLABLE_PACKAGE_FILENAME="$(ls -1 foo-$FOO_VERSION-$AUTOBUILD_PLATFORM-$(date +%Y%m%d)*.tar.bz2)"
-upload_item installer "$FOO_INSTALLABLE_PACKAGE_FILENAME" application/octet-stream
+ZLIB_INSTALLABLE_PACKAGE_FILENAME="$(ls -1 zlib-$ZLIB_VERSION-$AUTOBUILD_PLATFORM-$(date +%Y%m%d)*.tar.bz2)"
+#"$autobuild" upload "$ZLIB_INSTALLABLE_PACKAGE_FILENAME"
+upload_item installer "$ZLIB_INSTALLABLE_PACKAGE_FILENAME" application/octet-stream
 
-FOO_INSTALLABLE_PACKAGE_MD5="$(calc_md5 "$FOO_INSTALLABLE_PACKAGE_FILENAME")"
-echo "{'md5':'$FOO_INSTALLABLE_PACKAGE_MD5', 'url':'http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/$FOO_INSTALLABLE_PACKAGE_FILENAME'}" > "output.json"
+ZLIB_INSTALLABLE_PACKAGE_MD5="$(calc_md5 "$ZLIB_INSTALLABLE_PACKAGE_FILENAME")"
+echo "{'md5':'$ZLIB_INSTALLABLE_PACKAGE_MD5', 'url':'http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/$ZLIB_INSTALLABLE_PACKAGE_FILENAME'}" > "output.json"
 
 upload_item docs "output.json" text/plain
 
