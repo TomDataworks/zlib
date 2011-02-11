@@ -1,2 +1,4 @@
 syntax: glob
-build-*
+zlib-*.*.*
+stage/
+autobuild-parabuild-bootstrap/
