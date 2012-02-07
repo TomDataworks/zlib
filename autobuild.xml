@@ -17,7 +17,7 @@
           <string>stage</string>
           <key>configurations</key>
           <map>
-            <key>Release</key>
+            <key>default</key>
             <map>
               <key>build</key>
               <map>
@@ -30,7 +30,7 @@
                 <string>bash</string>
               </map>
               <key>name</key>
-              <string>Release</string>
+              <string>default</string>
             </map>
           </map>
           <key>manifest</key>
@@ -45,7 +45,7 @@
         <map>
           <key>configurations</key>
           <map>
-            <key>Release</key>
+            <key>default</key>
             <map>
               <key>build</key>
               <map>
@@ -53,12 +53,20 @@
               <key>default</key>
               <boolean>true</boolean>
               <key>name</key>
-              <string>Release</string>
+              <string>default</string>
             </map>
           </map>
           <key>manifest</key>
           <array>
             <string>lib/libz.a</string>
+            <string>lib/release/*.a</string>
+            <string>lib/debug/*.a</string>
+            <string>lib/debug/libz.1.2.5.dylib</string>
+            <string>lib/debug/libz.1.dylib</string>
+            <string>lib/debug/libz.dylib</string>
+            <string>lib/release/libz.1.2.5.dylib</string>
+            <string>lib/release/libz.1.dylib</string>
+            <string>lib/release/libz.dylib</string>
           </array>
           <key>name</key>
           <string>darwin</string>
@@ -67,7 +75,7 @@
         <map>
           <key>configurations</key>
           <map>
-            <key>Release</key>
+            <key>default</key>
             <map>
               <key>build</key>
               <map>
@@ -75,12 +83,13 @@
               <key>default</key>
               <boolean>true</boolean>
               <key>name</key>
-              <string>Release</string>
+              <string>default</string>
             </map>
           </map>
           <key>manifest</key>
           <array>
             <string>lib/release/libz.a</string>
+            <string>lib/debug/libz.a</string>
           </array>
           <key>name</key>
           <string>linux</string>
@@ -89,7 +98,7 @@
         <map>
           <key>configurations</key>
           <map>
-            <key>Release</key>
+            <key>default</key>
             <map>
               <key>build</key>
               <map>
@@ -97,7 +106,7 @@
               <key>default</key>
               <boolean>true</boolean>
               <key>name</key>
-              <string>Release</string>
+              <string>default</string>
             </map>
           </map>
           <key>manifest</key>
