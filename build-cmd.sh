@@ -39,23 +39,23 @@ pushd "$ZLIB_SOURCE_DIR"
                 cmd.exe /C bld_ml32.bat
             popd
             
-            build_sln "contrib/vstudio/vc10/zlibvc.sln" "Debug|Win32" "zlibstat"
-            build_sln "contrib/vstudio/vc10/zlibvc.sln" "Release|Win32" "zlibstat"
+            build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|Win32" "zlibstat"
+            build_sln "contrib/vstudio/vc12/zlibvc.sln" "ReleaseWithoutAsm|Win32" "zlibstat"
 
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                build_sln "contrib/vstudio/vc10/zlibvc.sln" "Debug|Win32" "testzlib"
+                build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|Win32" "testzlib"
                 ./contrib/vstudio/vc10/x86/TestZlibDebug/testzlib.exe README
 
-                build_sln "contrib/vstudio/vc10/zlibvc.sln" "Release|Win32" "testzlib"
+                build_sln "contrib/vstudio/vc12/zlibvc.sln" "Release|Win32" "testzlib"
                 ./contrib/vstudio/vc10/x86/TestZlibRelease/testzlib.exe README
             fi
 
             mkdir -p "$stage/lib/debug"
             mkdir -p "$stage/lib/release"
-            cp -a "contrib/vstudio/vc10/x86/ZlibStatDebug/zlibstat.lib" \
+            cp -a "contrib/vstudio/vc12/x86/ZlibStatDebug/zlibstat.lib" \
                 "$stage/lib/debug/zlibd.lib"
-            cp -a "contrib/vstudio/vc10/x86/ZlibStatRelease/zlibstat.lib" \
+            cp -a "contrib/vstudio/vc12/x86/ZlibStatRelease/zlibstat.lib" \
                 "$stage/lib/release/zlib.lib"
             mkdir -p "$stage/include/zlib"
             cp -a zlib.h zconf.h "$stage/include/zlib"
@@ -71,7 +71,44 @@ pushd "$ZLIB_SOURCE_DIR"
                 nmake /f Makefile.Linden.Win32.mak clean
             popd
         ;;
+        "windows64")
+            load_vsvars
 
+            # Okay, this invokes cmake then doesn't use the products.  Why?
+            #cmake .
+
+            build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|x64" "zlibstat"
+            build_sln "contrib/vstudio/vc12/zlibvc.sln" "ReleaseWithoutAsm|x64" "zlibstat"
+
+            # conditionally run unit tests
+            if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+            #    build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|x64" "testzlib"
+            #    ./contrib/vstudio/vc12/x64/TestZlibDebug/testzlib.exe README
+
+                build_sln "contrib/vstudio/vc12/zlibvc.sln" "ReleaseWithoutAsm|x64" "testzlib"
+                ./contrib/vstudio/vc12/x64/TestZlibReleaseWithoutAsm/testzlib.exe README
+            fi
+
+            mkdir -p "$stage/lib/debug"
+            mkdir -p "$stage/lib/release"
+            cp -a "contrib/vstudio/vc12/x64/ZlibStatDebug/zlibstat.lib" \
+                "$stage/lib/debug/zlibd.lib"
+            cp -a "contrib/vstudio/vc12/x64/ZlibStatReleaseWithoutAsm/zlibstat.lib" \
+                "$stage/lib/release/zlib.lib"
+            mkdir -p "$stage/include/zlib"
+            cp -a zlib.h zconf.h "$stage/include/zlib"
+
+            # minizip
+            pushd contrib/minizip
+                nmake /f Makefile.Linden.Win32.mak DEBUG=1
+                cp -a minizip.lib "$stage"/lib/debug/
+                nmake /f Makefile.Linden.Win32.mak DEBUG=1 clean
+
+                nmake /f Makefile.Linden.Win32.mak
+                cp -a minizip.lib "$stage"/lib/release/
+                nmake /f Makefile.Linden.Win32.mak clean
+            popd
+        ;;
         "darwin")
             # Select SDK with full path.  This shouldn't have much effect on this
             # build but adding to establish a consistent pattern.
