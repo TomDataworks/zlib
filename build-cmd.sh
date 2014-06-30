@@ -75,7 +75,7 @@ pushd "$ZLIB_SOURCE_DIR"
             load_vsvars
 
             # Okay, this invokes cmake then doesn't use the products.  Why?
-            #cmake .
+            cmake .
 
             build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|x64" "zlibstat"
             build_sln "contrib/vstudio/vc12/zlibvc.sln" "ReleaseWithoutAsm|x64" "zlibstat"
