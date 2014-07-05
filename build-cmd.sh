@@ -35,20 +35,15 @@ pushd "$ZLIB_SOURCE_DIR"
             # Okay, this invokes cmake then doesn't use the products.  Why?
             cmake .
 
-            pushd contrib/masmx86
-                cmd.exe /C bld_ml32.bat
-            popd
-            
-            build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|Win32" "zlibstat"
-            build_sln "contrib/vstudio/vc12/zlibvc.sln" "ReleaseWithoutAsm|Win32" "zlibstat"
-
+            build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|Win32"
+            build_sln "contrib/vstudio/vc12/zlibvc.sln" "Release|Win32"
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
                 build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|Win32" "testzlib"
-                ./contrib/vstudio/vc10/x86/TestZlibDebug/testzlib.exe README
+                ./contrib/vstudio/vc12/x86/TestZlibDebug/testzlib.exe README
 
                 build_sln "contrib/vstudio/vc12/zlibvc.sln" "Release|Win32" "testzlib"
-                ./contrib/vstudio/vc10/x86/TestZlibRelease/testzlib.exe README
+                ./contrib/vstudio/vc12/x86/TestZlibRelease/testzlib.exe README
             fi
 
             mkdir -p "$stage/lib/debug"
