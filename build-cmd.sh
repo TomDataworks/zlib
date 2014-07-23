@@ -111,13 +111,13 @@ pushd "$ZLIB_SOURCE_DIR"
             # sdk=/Developer/SDKs/MacOSX10.6.sdk/
             # sdk=/Developer/SDKs/MacOSX10.7.sdk/
             # sdk=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk/
-            sdk=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/
+            sdk=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/
 
             # Keep min version back at 10.5 if you are using the
             # old llqtwebkit repo which builds on 10.5 systems.
             # At 10.6, zlib will start using __bzero() which doesn't
             # exist there.
-            opts="${TARGET_OPTS:--arch i386 -iwithsysroot $sdk -mmacosx-version-min=10.6}"
+            opts="${TARGET_OPTS:--arch i386 -arch x86_64 -iwithsysroot $sdk -mmacosx-version-min=10.7}"
 
             # Install name for dylibs based on major version number
             install_name="@executable_path/../Resources/libz.1.dylib"
