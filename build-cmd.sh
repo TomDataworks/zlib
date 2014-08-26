@@ -271,6 +271,84 @@ pushd "$ZLIB_SOURCE_DIR"
             # clean the build artifacts
             make distclean
         ;;
+        "linux64")
+            # Linux build environment at Linden comes pre-polluted with stuff that can
+            # seriously damage 3rd-party builds.  Environmental garbage you can expect
+            # includes:
+            #
+            #    DISTCC_POTENTIAL_HOSTS     arch           root        CXXFLAGS
+            #    DISTCC_LOCATION            top            branch      CC
+            #    DISTCC_HOSTS               build_name     suffix      CXX
+            #    LSDISTCC_ARGS              repo           prefix      CFLAGS
+            #    cxx_version                AUTOBUILD      SIGN        CPPFLAGS
+            #
+            # So, clear out bits that shouldn't affect our configure-directed build
+            # but which do nonetheless.
+            #
+            # unset DISTCC_HOSTS CC CXX CFLAGS CPPFLAGS CXXFLAGS
+
+            # Default target to 64-bit
+            opts="${TARGET_OPTS:--m64}"
+
+            # Handle any deliberate platform targeting
+            if [ -z "$TARGET_CPPFLAGS" ]; then
+                # Remove sysroot contamination from build environment
+                unset CPPFLAGS
+            else
+                # Incorporate special pre-processing flags
+                export CPPFLAGS="$TARGET_CPPFLAGS"
+            fi
+
+            # Debug first
+            CFLAGS="$opts -O0 -g -fPIC -DPIC" CXXFLAGS="$opts -O0 -g -fPIC -DPIC" \
+                ./configure --prefix="$stage" --includedir="$stage/include/zlib" --libdir="$stage/lib/debug"
+            make
+            make install
+
+            # conditionally run unit tests
+            if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+                make test
+            fi
+
+            # minizip
+            pushd contrib/minizip
+                CFLAGS="$opts -O0 -g -fPIC -DPIC" make -f Makefile.Linden all
+                cp -a libminizip.a "$stage"/lib/debug/
+                # conditionally run unit tests
+                if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+                    make -f Makefile.Linden test
+                fi
+                make -f Makefile.Linden clean
+            popd
+
+            # clean the build artifacts
+            make distclean
+
+            # Release last
+            CFLAGS="$opts -O3 -fPIC -DPIC" CXXFLAGS="$opts -O3 -fPIC -DPIC" \
+                ./configure --prefix="$stage" --includedir="$stage/include/zlib" --libdir="$stage/lib/release"
+            make
+            make install
+
+            # conditionally run unit tests
+            if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+                make test
+            fi
+
+            # minizip
+            pushd contrib/minizip
+                CFLAGS="$opts -O3 -fPIC -DPIC" make -f Makefile.Linden all
+                cp -a libminizip.a "$stage"/lib/release/
+                # conditionally run unit tests
+                if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
+                    make -f Makefile.Linden test
+                fi
+                make -f Makefile.Linden clean
+            popd
+
+            # clean the build artifacts
+            make distclean
+        ;;
     esac
     mkdir -p "$stage/LICENSES"
     tail -n 31 README > "$stage/LICENSES/zlib.txt"
