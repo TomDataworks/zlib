@@ -300,7 +300,7 @@ pushd "$ZLIB_SOURCE_DIR"
             fi
 
             # Debug first
-            CFLAGS="$opts -O0 -g -fPIC -DPIC" CXXFLAGS="$opts -O0 -g -fPIC -DPIC" \
+            CFLAGS="$opts -Og -g -fPIC -DPIC" CXXFLAGS="$opts -Og -g -fPIC -DPIC" \
                 ./configure --prefix="\${AUTOBUILD_PACKAGES_DIR}" --includedir="\${prefix}/include/zlib" --libdir="\${prefix}/lib/debug"
             make
             make install DESTDIR="$stage"
@@ -312,7 +312,7 @@ pushd "$ZLIB_SOURCE_DIR"
 
             # minizip
             pushd contrib/minizip
-                CFLAGS="$opts -O0 -g -fPIC -DPIC" make -f Makefile.Linden all
+                CFLAGS="$opts -Og -g -fPIC -DPIC" make -f Makefile.Linden all
                 cp -a libminizip.a "$stage"/lib/debug/
                 # conditionally run unit tests
                 if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
