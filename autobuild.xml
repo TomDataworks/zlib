@@ -179,14 +179,12 @@
           <string>windows64</string>
         </map>
       </map>
-      <key>source_directory</key>
-      <string>zlib</string>
-      <key>version</key>
-      <string>1.2.8</string>
+      <key>version_file</key>
+      <string>VERSION.txt</string>
     </map>
     <key>type</key>
     <string>autobuild</string>
     <key>version</key>
-    <string>1.2</string>
+    <string>1.3</string>
   </map>
 </llsd>

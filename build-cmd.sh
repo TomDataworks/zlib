@@ -26,6 +26,8 @@ set -x
 top="$(pwd)"
 stage="$top"/stage
 
+echo "${ZLIB_VERSION}" > "${stage}/VERSION.txt"
+
 pushd "$ZLIB_SOURCE_DIR"
     case "$AUTOBUILD_PLATFORM" in
 
