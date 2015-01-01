@@ -56,10 +56,6 @@
     project file zlibstat.vcxproj.  This forces using stdcall rather
     than winapi.
 
-    * /Zc:wchar_t- (no built-in wchar_t) in zlibstat.vcxproj and
-    testzlib.vcxproj.  Not done in other project files (including
-    zlibvc.vcxproj, the DLL project).
-
     * /Z7 for all zlibstat.vcxproj targets.
 
     * build-cmd.sh was/is an inconsistent mess.  The windows side uses
