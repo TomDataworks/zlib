@@ -205,14 +205,9 @@ pushd "$ZLIB_SOURCE_DIR"
             #
             # unset DISTCC_HOSTS CC CXX CFLAGS CPPFLAGS CXXFLAGS
 
-            # Prefer gcc-4.6 if available.
-            if [[ -x /usr/bin/gcc-4.6 && -x /usr/bin/g++-4.6 ]]; then
-                export CC=/usr/bin/gcc-4.6
-                export CXX=/usr/bin/g++-4.6
-            fi
-
             # Default target to 32-bit
             opts="${TARGET_OPTS:--m32}"
+            HARDENED="-fstack-protector-strong -D_FORTIFY_SOURCE=2"
 
             # Handle any deliberate platform targeting
             if [ -z "$TARGET_CPPFLAGS" ]; then
@@ -249,7 +244,7 @@ pushd "$ZLIB_SOURCE_DIR"
             make distclean
 
             # Release last
-            CFLAGS="$opts -O3 -fPIC -DPIC" CXXFLAGS="$opts -O3 -fPIC -DPIC" \
+            CFLAGS="$opts -O3 -g $HARDENED -fPIC -DPIC" CXXFLAGS="$opts -O3 -g $HARDENED -fPIC -DPIC" \
                 ./configure --prefix="$stage" --includedir="$stage/include/zlib" --libdir="$stage/lib/release"
             make
             make install
@@ -261,7 +256,7 @@ pushd "$ZLIB_SOURCE_DIR"
 
             # minizip
             pushd contrib/minizip
-                CFLAGS="$opts -O3 -fPIC -DPIC" make -f Makefile.Linden all
+                CFLAGS="$opts -O3 -g $HARDENED -fPIC -DPIC" make -f Makefile.Linden all
                 cp -a libminizip.a "$stage"/lib/release/
                 # conditionally run unit tests
                 if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
@@ -291,6 +286,7 @@ pushd "$ZLIB_SOURCE_DIR"
 
             # Default target to 64-bit
             opts="${TARGET_OPTS:--m64}"
+            HARDENED="-fstack-protector-strong -D_FORTIFY_SOURCE=2"
 
             # Handle any deliberate platform targeting
             if [ -z "$TARGET_CPPFLAGS" ]; then
@@ -327,7 +323,7 @@ pushd "$ZLIB_SOURCE_DIR"
             make distclean
 
             # Release last
-            CFLAGS="$opts -O3 -fPIC -DPIC" CXXFLAGS="$opts -O3 -fPIC -DPIC" \
+            CFLAGS="$opts -O3 -g $HARDENED -fPIC -DPIC" CXXFLAGS="$opts -O3 -g $HARDENED -fPIC -DPIC" \
                 ./configure --prefix="\${AUTOBUILD_PACKAGES_DIR}" --includedir="\${prefix}/include/zlib" --libdir="\${prefix}/lib/release"
             make
             make install DESTDIR="$stage"
@@ -339,7 +335,7 @@ pushd "$ZLIB_SOURCE_DIR"
 
             # minizip
             pushd contrib/minizip
-                CFLAGS="$opts -O3 -fPIC -DPIC" make -f Makefile.Linden all
+                CFLAGS="$opts -O3 -g $HARDENED -fPIC -DPIC" make -f Makefile.Linden all
                 cp -a libminizip.a "$stage"/lib/release/
                 # conditionally run unit tests
                 if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
