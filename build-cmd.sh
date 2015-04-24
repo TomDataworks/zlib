@@ -119,7 +119,7 @@ pushd "$ZLIB_SOURCE_DIR"
             # old llqtwebkit repo which builds on 10.5 systems.
             # At 10.6, zlib will start using __bzero() which doesn't
             # exist there.
-            opts="${TARGET_OPTS:--arch i386 -arch x86_64 -iwithsysroot $sdk -mmacosx-version-min=10.7}"
+            opts="${TARGET_OPTS:--arch i386 -arch x86_64 -iwithsysroot $sdk -mmacosx-version-min=10.8}"
 
             # Install name for dylibs based on major version number
             install_name="@executable_path/../Resources/libz.1.dylib"
