@@ -38,7 +38,7 @@ pushd "$ZLIB_SOURCE_DIR"
             cmake -G"Visual Studio 12" .
 
             build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|Win32"
-            build_sln "contrib/vstudio/vc12/zlibvc.sln" "Release|Win32"
+            build_sln "contrib/vstudio/vc12/zlibvc.sln" "ReleaseWithoutAsm|Win32"
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
                 build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|Win32" "testzlib"
@@ -52,7 +52,7 @@ pushd "$ZLIB_SOURCE_DIR"
             mkdir -p "$stage/lib/release"
             cp -a "contrib/vstudio/vc12/x86/ZlibStatDebug/zlibstat.lib" \
                 "$stage/lib/debug/zlibd.lib"
-            cp -a "contrib/vstudio/vc12/x86/ZlibStatRelease/zlibstat.lib" \
+            cp -a "contrib/vstudio/vc12/x86/ZlibStatReleaseWithoutAsm/zlibstat.lib" \
                 "$stage/lib/release/zlib.lib"
             mkdir -p "$stage/include/zlib"
             cp -a zlib.h zconf.h "$stage/include/zlib"
@@ -75,7 +75,7 @@ pushd "$ZLIB_SOURCE_DIR"
             cmake -G"Visual Studio 12 Win64" .
 
             build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|x64" "zlibstat"
-            build_sln "contrib/vstudio/vc12/zlibvc.sln" "Release|x64" "zlibstat"
+            build_sln "contrib/vstudio/vc12/zlibvc.sln" "ReleaseWithoutAsm|x64" "zlibstat"
 
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
@@ -90,7 +90,7 @@ pushd "$ZLIB_SOURCE_DIR"
             mkdir -p "$stage/lib/release"
             cp -a "contrib/vstudio/vc12/x64/ZlibStatDebug/zlibstat.lib" \
                 "$stage/lib/debug/zlibd.lib"
-            cp -a "contrib/vstudio/vc12/x64/ZlibStatRelease/zlibstat.lib" \
+            cp -a "contrib/vstudio/vc12/x64/ZlibStatReleaseWithoutAsm/zlibstat.lib" \
                 "$stage/lib/release/zlib.lib"
             mkdir -p "$stage/include/zlib"
             cp -a zlib.h zconf.h "$stage/include/zlib"
