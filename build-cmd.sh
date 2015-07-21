@@ -37,22 +37,22 @@ pushd "$ZLIB_SOURCE_DIR"
             # Okay, this invokes cmake then doesn't use the products.  Why?
             cmake -G"Visual Studio 12" .
 
-            build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|Win32"
-            build_sln "contrib/vstudio/vc12/zlibvc.sln" "ReleaseWithoutAsm|Win32"
+            build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug|Win32"
+            build_sln "contrib/vstudio/vc14/zlibvc.sln" "ReleaseWithoutAsm|Win32"
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|Win32" "testzlib"
-                ./contrib/vstudio/vc12/x86/TestZlibDebug/testzlib.exe README
+                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug|Win32" "testzlib"
+                ./contrib/vstudio/vc14/x86/TestZlibDebug/testzlib.exe README
 
-                build_sln "contrib/vstudio/vc12/zlibvc.sln" "Release|Win32" "testzlib"
-                ./contrib/vstudio/vc12/x86/TestZlibRelease/testzlib.exe README
+                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Release|Win32" "testzlib"
+                ./contrib/vstudio/vc14/x86/TestZlibRelease/testzlib.exe README
             fi
 
             mkdir -p "$stage/lib/debug"
             mkdir -p "$stage/lib/release"
-            cp -a "contrib/vstudio/vc12/x86/ZlibStatDebug/zlibstat.lib" \
+            cp -a "contrib/vstudio/vc14/x86/ZlibStatDebug/zlibstat.lib" \
                 "$stage/lib/debug/zlibd.lib"
-            cp -a "contrib/vstudio/vc12/x86/ZlibStatReleaseWithoutAsm/zlibstat.lib" \
+            cp -a "contrib/vstudio/vc14/x86/ZlibStatReleaseWithoutAsm/zlibstat.lib" \
                 "$stage/lib/release/zlib.lib"
             mkdir -p "$stage/include/zlib"
             cp -a zlib.h zconf.h "$stage/include/zlib"
@@ -74,23 +74,23 @@ pushd "$ZLIB_SOURCE_DIR"
             # Okay, this invokes cmake then doesn't use the products.  Why?
             cmake -G"Visual Studio 12 Win64" .
 
-            build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|x64" "zlibstat"
-            build_sln "contrib/vstudio/vc12/zlibvc.sln" "ReleaseWithoutAsm|x64" "zlibstat"
+            build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug|x64" "zlibstat"
+            build_sln "contrib/vstudio/vc14/zlibvc.sln" "ReleaseWithoutAsm|x64" "zlibstat"
 
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                build_sln "contrib/vstudio/vc12/zlibvc.sln" "Debug|x64" "testzlib"
-                ./contrib/vstudio/vc12/x64/TestZlibDebug/testzlib.exe README
+                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug|x64" "testzlib"
+                ./contrib/vstudio/vc14/x64/TestZlibDebug/testzlib.exe README
 
-                build_sln "contrib/vstudio/vc12/zlibvc.sln" "Release|x64" "testzlib"
-                ./contrib/vstudio/vc12/x64/TestZlibRelease/testzlib.exe README
+                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Release|x64" "testzlib"
+                ./contrib/vstudio/vc14/x64/TestZlibRelease/testzlib.exe README
             fi
 
             mkdir -p "$stage/lib/debug"
             mkdir -p "$stage/lib/release"
-            cp -a "contrib/vstudio/vc12/x64/ZlibStatDebug/zlibstat.lib" \
+            cp -a "contrib/vstudio/vc14/x64/ZlibStatDebug/zlibstat.lib" \
                 "$stage/lib/debug/zlibd.lib"
-            cp -a "contrib/vstudio/vc12/x64/ZlibStatReleaseWithoutAsm/zlibstat.lib" \
+            cp -a "contrib/vstudio/vc14/x64/ZlibStatReleaseWithoutAsm/zlibstat.lib" \
                 "$stage/lib/release/zlib.lib"
             mkdir -p "$stage/include/zlib"
             cp -a zlib.h zconf.h "$stage/include/zlib"
