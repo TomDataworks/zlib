@@ -35,7 +35,7 @@ pushd "$ZLIB_SOURCE_DIR"
             load_vsvars
 
             # Okay, this invokes cmake then doesn't use the products.  Why?
-            cmake -G"Visual Studio 12" .
+            cmake -G"Visual Studio 14" .
 
             build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug|Win32"
             build_sln "contrib/vstudio/vc14/zlibvc.sln" "ReleaseWithoutAsm|Win32"
@@ -72,7 +72,7 @@ pushd "$ZLIB_SOURCE_DIR"
             load_vsvars
 
             # Okay, this invokes cmake then doesn't use the products.  Why?
-            cmake -G"Visual Studio 12 Win64" .
+            cmake -G"Visual Studio 14 Win64" .
 
             build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug|x64" "zlibstat"
             build_sln "contrib/vstudio/vc14/zlibvc.sln" "ReleaseWithoutAsm|x64" "zlibstat"
