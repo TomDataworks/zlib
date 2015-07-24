@@ -37,14 +37,14 @@ pushd "$ZLIB_SOURCE_DIR"
             # Okay, this invokes cmake then doesn't use the products.  Why?
             cmake -G"Visual Studio 14" .
 
-            build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug|Win32"
+            build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug" "Win32"
             build_sln "contrib/vstudio/vc14/zlibvc.sln" "ReleaseWithoutAsm|Win32"
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug|Win32" "testzlib"
+                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug" "Win32" "testzlib"
                 ./contrib/vstudio/vc14/x86/TestZlibDebug/testzlib.exe README
 
-                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Release|Win32" "testzlib"
+                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Release" "Win32" "testzlib"
                 ./contrib/vstudio/vc14/x86/TestZlibRelease/testzlib.exe README
             fi
 
@@ -74,15 +74,15 @@ pushd "$ZLIB_SOURCE_DIR"
             # Okay, this invokes cmake then doesn't use the products.  Why?
             cmake -G"Visual Studio 14 Win64" .
 
-            build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug|x64" "zlibstat"
+            build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug" "x64" "zlibstat"
             build_sln "contrib/vstudio/vc14/zlibvc.sln" "ReleaseWithoutAsm|x64" "zlibstat"
 
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
-                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug|x64" "testzlib"
+                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Debug" "x64" "testzlib"
                 ./contrib/vstudio/vc14/x64/TestZlibDebug/testzlib.exe README
 
-                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Release|x64" "testzlib"
+                build_sln "contrib/vstudio/vc14/zlibvc.sln" "Release" "x64" "testzlib"
                 ./contrib/vstudio/vc14/x64/TestZlibRelease/testzlib.exe README
             fi
 
