@@ -207,7 +207,7 @@ pushd "$ZLIB_SOURCE_DIR"
 
             # Default target to 32-bit
             opts="${TARGET_OPTS:--m32}"
-            HARDENED="-fstack-protector-strong -D_FORTIFY_SOURCE=2"
+            HARDENED="-fstack-protector -D_FORTIFY_SOURCE=2"
 
             # Handle any deliberate platform targeting
             if [ -z "$TARGET_CPPFLAGS" ]; then
@@ -220,9 +220,9 @@ pushd "$ZLIB_SOURCE_DIR"
 
             # Debug first
             CFLAGS="$opts -Og -g -fPIC -DPIC" CXXFLAGS="$opts -Og -g -fPIC -DPIC" \
-                ./configure --prefix="$stage" --includedir="$stage/include/zlib" --libdir="$stage/lib/debug"
+                ./configure --prefix="\${AUTOBUILD_PACKAGES_DIR}" --includedir="\${prefix}/include/zlib" --libdir="\${prefix}/lib/debug"
             make
-            make install
+            make install DESTDIR="$stage"
 
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
@@ -245,9 +245,9 @@ pushd "$ZLIB_SOURCE_DIR"
 
             # Release last
             CFLAGS="$opts -O3 -g $HARDENED -fPIC -DPIC" CXXFLAGS="$opts -O3 -g $HARDENED -fPIC -DPIC" \
-                ./configure --prefix="$stage" --includedir="$stage/include/zlib" --libdir="$stage/lib/release"
+                ./configure --prefix="\${AUTOBUILD_PACKAGES_DIR}" --includedir="\${prefix}/include/zlib" --libdir="\${prefix}/lib/release"
             make
-            make install
+            make install DESTDIR="$stage"
 
             # conditionally run unit tests
             if [ "${DISABLE_UNIT_TESTS:-0}" = "0" ]; then
@@ -286,7 +286,7 @@ pushd "$ZLIB_SOURCE_DIR"
 
             # Default target to 64-bit
             opts="${TARGET_OPTS:--m64}"
-            HARDENED="-fstack-protector-strong -D_FORTIFY_SOURCE=2"
+            HARDENED="-fstack-protector -D_FORTIFY_SOURCE=2"
 
             # Handle any deliberate platform targeting
             if [ -z "$TARGET_CPPFLAGS" ]; then
